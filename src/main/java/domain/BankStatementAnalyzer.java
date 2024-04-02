@@ -5,16 +5,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Month;
 import java.util.List;
-
-import services.BankStatementCSVParser;
 import services.BankStatementParser;
 import services.BankStatementProcessor;
 
 public class BankStatementAnalyzer {
-	private static final String RESOURCES = "src\\resources\\";
+	private static final String RESOURCES = "src\\main\\resources\\";
 
 	public static void analyzer(String fileName, BankStatementParser bankStatementParser) throws IOException {
-
 
 		Path path = Paths.get(RESOURCES, fileName);
 		List<String> lines = Files.readAllLines(path);
