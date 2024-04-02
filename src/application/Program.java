@@ -10,6 +10,7 @@ import java.util.List;
 
 import domain.BankTransaction;
 import services.BankStatementCSVParser;
+import services.BankStatementProcessor;
 
 public class Program {
 
@@ -25,29 +26,24 @@ public class Program {
 		List<String> lines = Files.readAllLines(path);
 		
 		List<BankTransaction> bankTransactions = bankStatementParser.parseLinesFromCSV(lines);
-
-		System.out.println("total of all transaction: " + calculateTotalAmount(bankTransactions));
-		System.out.println("total of all transaction: " + calculateTotalAmount(selectMonth(bankTransactions, Month.JANUARY)));
-				
-	}
-	
-	public static double calculateTotalAmount(List<BankTransaction> bankTransactions) {
-		double total = 0d;
-		for (BankTransaction bankTransaction: bankTransactions) {
-			total += bankTransaction.getAmount();
-		}
-		return total;
-	}
-	
-	public static List<BankTransaction> selectMonth(List<BankTransaction> bankTransactions, Month month) {
 		
-		List<BankTransaction> bankTransactionMonth = new ArrayList<>();
-		for (BankTransaction bankTransaction: bankTransactions) {
-			if(bankTransaction.getDate().getMonth() == month) {
-				bankTransactionMonth.add(bankTransaction);
-			}
+		BankStatementProcessor bankStatementProcessor = new BankStatementProcessor(bankTransactions);
+			
+		 collectSumary(bankStatementProcessor);
 		}
-		return bankTransactionMonth;
+	
+	private static void collectSumary(BankStatementProcessor bankStatementProcessor) {
+		System.out.println("The total for all transactions is " 
+				+ bankStatementProcessor.calculateTotalAmount());
+
+		System.out.println("The total for transactions in January is " 
+				+ bankStatementProcessor.calculateTotalInMonth(Month.JANUARY));
+
+		System.out.println("The total for transactions in February is "
+				+ bankStatementProcessor.calculateTotalInMonth(Month.FEBRUARY));
+
+		System.out.println("The total salary received is "
+				+ bankStatementProcessor.calculateTotalForCategory("Salary"));
 	}
 	
 }

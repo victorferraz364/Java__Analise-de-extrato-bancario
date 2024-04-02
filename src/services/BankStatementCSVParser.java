@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import domain.BankTransaction;
 
-public class BankStatementCSVParser {
+public class BankStatementCSVParser implements BankStatementParser{
 	private static DateTimeFormatter DATE_PATTERN = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
 	private BankTransaction parseFromCSV(String line) {
@@ -27,6 +27,18 @@ public class BankStatementCSVParser {
 			bankTransactions.add(parseFromCSV(line));
 		}
 		return bankTransactions;
+	}
+
+	@Override
+	public BankTransaction parserFrom(String line) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<BankTransaction> parseLinesFrom(List<String> lines) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
