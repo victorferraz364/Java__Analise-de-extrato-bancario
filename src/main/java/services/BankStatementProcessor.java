@@ -47,4 +47,17 @@ public class BankStatementProcessor {
 		return total;
 	}
 
+	public List<BankTransaction> findTransactionsGreaterThanEqual( int amount) {
+	        return findTransactions(bankTransaction -> bankTransaction.getAmount() >= amount);
+	    }
+	
+	public List<BankTransaction> findTransactions(BankTransactionFilter bankTransactionFilter) {
+		List<BankTransaction> result = new ArrayList<>();
+		for(BankTransaction bankTransaction: bankTransactions) {
+			if(bankTransactionFilter.test(bankTransaction)) { 
+				result.add(bankTransaction);
+			}
+		}
+		return result;
+	}
 }
