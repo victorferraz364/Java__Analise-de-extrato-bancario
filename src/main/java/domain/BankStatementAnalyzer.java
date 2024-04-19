@@ -24,8 +24,6 @@ public class BankStatementAnalyzer {
 	}
 
 	private static void collectSumary(BankStatementProcessor bankStatementProcessor) {
-		System.out.println("The total for all transactions is " 
-				+ bankStatementProcessor.calculateTotalAmount());
 
 		System.out.println("The total for transactions in January is " 
 				+ bankStatementProcessor.calculateTotalInMonth(Month.JANUARY));
@@ -33,8 +31,7 @@ public class BankStatementAnalyzer {
 		System.out.println("The total for transactions in February is "
 				+ bankStatementProcessor.calculateTotalInMonth(Month.FEBRUARY));
 
-		System.out.println("The total salary received is "
-				+ bankStatementProcessor.calculateTotalForCategory("Salary"));
+	
 	}
 
 }

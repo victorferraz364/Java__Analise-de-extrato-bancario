@@ -1,6 +1,4 @@
-package services;
-
-import domain.BankTransaction;
+package domain;
 
 @FunctionalInterface
 public interface BankTransactionFilter {

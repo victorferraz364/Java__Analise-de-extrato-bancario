@@ -5,52 +5,38 @@ import java.util.ArrayList;
 import java.util.List;
 
 import domain.BankTransaction;
+import domain.BankTransactionFilter;
+import domain.BankTransactionSummarizer;
 
 public class BankStatementProcessor {
 
 	private List<BankTransaction> bankTransactions;
-	
+
 	public BankStatementProcessor(List<BankTransaction> bankTransactions) {
 		this.bankTransactions = bankTransactions;
 	}
-	
-	public double calculateTotalAmount() {
-		
-			double total = 0d;
-			for (BankTransaction bankTransaction: bankTransactions) {
-				total += bankTransaction.getAmount();
-			}
-			return total;
-		}
-	
-	public List<BankTransaction> calculateTotalInMonth(Month month) {
-		
-		List<BankTransaction> bankTransactionMonth = new ArrayList<>();
-		
+
+	public double summarizeTransactions(BankTransactionSummarizer bankTransactionSummarizer) {
+		double result = 0;
 		for (BankTransaction bankTransaction: bankTransactions) {
-			if(bankTransaction.getDate().getMonth() == month) {
-				bankTransactionMonth.add(bankTransaction);
-			}
+			result = bankTransactionSummarizer.summarize(result, bankTransaction);
+
 		}
-		return bankTransactionMonth;
-	}
-	
-	public double calculateTotalForCategory(final String category) {
-		
-		double total = 0;
-		
-		for(final BankTransaction bankTransaction: bankTransactions) {
-			if(bankTransaction.getDescription().equals(category)) { 
-				total += bankTransaction.getAmount();
-			}
-		}
-		return total;
+		return result;
+	}	
+
+	public double calculateTotalInMonth(Month month) {
+
+		return summarizeTransactions((acc, bankTransaction) -> 
+		bankTransaction.getDate().getMonth() 
+		== month ? acc + bankTransaction.getAmount() : acc);
+
 	}
 
 	public List<BankTransaction> findTransactionsGreaterThanEqual( int amount) {
-	        return findTransactions(bankTransaction -> bankTransaction.getAmount() >= amount);
-	    }
-	
+		return findTransactions(bankTransaction -> bankTransaction.getAmount() >= amount);
+	}
+
 	public List<BankTransaction> findTransactions(BankTransactionFilter bankTransactionFilter) {
 		List<BankTransaction> result = new ArrayList<>();
 		for(BankTransaction bankTransaction: bankTransactions) {
